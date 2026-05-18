@@ -1,0 +1,4 @@
+node_modules
+dao/config/config.json
+.env
+*.log
