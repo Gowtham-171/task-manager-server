@@ -1,4 +1,3 @@
-// dao/migrations/XXXXXXXXXXXXXX-create-task.js
 
 'use strict';
 

@@ -3,18 +3,18 @@ module.exports = (sequelize, DataTypes) => {
 
     const Task = sequelize.define('Task', {
 
-        username: {
+        assigneeName: {
             type: DataTypes.STRING(50),
             allowNull: false
         },
 
-        name: {
+        taskName: {
             type: DataTypes.STRING(100),
             allowNull: false,
             unique: true
         },
 
-        email: {
+        assigneeEmail: {
             type: DataTypes.STRING(100),
             allowNull: false,
             validate: {
@@ -22,37 +22,37 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        date: {
+        dueDate: {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
 
-        time: {
+        dueTime: {
             type: DataTypes.TIME,
             allowNull: false
         },
 
-        priority: {
+        priorityLevel: {
             type: DataTypes.ENUM('Low', 'Medium', 'High'),
             allowNull: false
         },
 
-        hours: {
+        estimatedHours: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
 
-        url: {
+        projectUrl: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
 
-        description: {
+        taskDescription: {
             type: DataTypes.TEXT,
             allowNull: false
         },
 
-        progress: {
+        taskProgress: {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
