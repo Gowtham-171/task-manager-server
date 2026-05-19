@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        status: {
+        taskStatus: {
             type: DataTypes.ENUM(
                 'Pending',
                 'In Progress',

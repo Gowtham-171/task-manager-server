@@ -14,33 +14,33 @@ module.exports = {
         primaryKey: true
       },
 
-      username: {
+      assigneeName: {
         type: Sequelize.STRING(50),
         allowNull: false
       },
 
-      name: {
+      taskName: {
         type: Sequelize.STRING(100),
         allowNull: false,
         unique: true
       },
 
-      email: {
+      assigneeEmail: {
         type: Sequelize.STRING(100),
         allowNull: false
       },
 
-      date: {
+      dueDate: {
         type: Sequelize.DATEONLY,
         allowNull: false
       },
 
-      time: {
+      dueTime: {
         type: Sequelize.TIME,
         allowNull: false
       },
 
-      priority: {
+      priorityLevel: {
         type: Sequelize.ENUM(
           'Low',
           'Medium',
@@ -49,22 +49,22 @@ module.exports = {
         allowNull: false
       },
 
-      hours: {
+      estimatedHours: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
 
-      url: {
+      projectUrl: {
         type: Sequelize.STRING(255),
         allowNull: false
       },
 
-      description: {
+      taskDescription: {
         type: Sequelize.TEXT,
         allowNull: false
       },
 
-      progress: {
+      taskProgress: {
         type: Sequelize.INTEGER,
         defaultValue: 0
       },
@@ -74,7 +74,7 @@ module.exports = {
         allowNull: false
       },
 
-      status: {
+      taskStatus: {
         type: Sequelize.ENUM(
           'Pending',
           'In Progress',
