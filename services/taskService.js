@@ -19,33 +19,33 @@ const validateTaskData = (data, isPatch = false) => {
     }
 
     const {
-        username, name, email, date, time,
-        priority, hours, url, description, taskTypes, status
+        assigneeName, taskName, assigneeEmail, dueDate, dueTime,
+        priorityLevel, estimatedHours, projectUrl, taskDescription, taskTypes, taskStatus
     } = data;
 
-    const trimmedUsername = username?.trim();
-    const trimmedName = name?.trim();
-    const trimmedEmail = email?.trim().toLowerCase();
-    const trimmedUrl = url?.trim();
-    const trimmedDescription = description?.trim();
-    const trimmedPriority = priority?.trim();
-    const trimmedStatus = status?.trim();
-    const trimmedDate = date?.trim();
-    const trimmedTime = time?.trim();
+    const trimmedAssigneeName = assigneeName?.trim();
+    const trimmedTaskName = taskName?.trim();
+    const trimmedEmail = assigneeEmail?.trim().toLowerCase();
+    const trimmedUrl = projectUrl?.trim();
+    const trimmedDescription = taskDescription?.trim();
+    const trimmedPriority = priorityLevel?.trim();
+    const trimmedStatus = taskStatus?.trim();
+    const trimmedDate = dueDate?.trim();
+    const trimmedTime = dueTime?.trim();
 
 
     if (!isPatch) {
         const required = {
-            username: trimmedUsername,
-            name: trimmedName,
-            email: trimmedEmail,
-            date: trimmedDate,
-            time: trimmedTime,
-            priority: trimmedPriority,
-            hours,
-            url: trimmedUrl,
-            description: trimmedDescription,
-            status: trimmedStatus,
+            assigneeName: trimmedAssigneeName,
+            taskName: trimmedTaskName,
+            assigneeEmail: trimmedEmail,
+            dueDate: trimmedDate,
+            dueTime: trimmedTime,
+            priorityLevel: trimmedPriority,
+            estimatedHours,
+            projectUrl: trimmedUrl,
+            taskDescription: trimmedDescription,
+            taskStatus: trimmedStatus,
         };
 
         const missing = Object.entries(required)
@@ -61,40 +61,40 @@ const validateTaskData = (data, isPatch = false) => {
         }
     }
 
-    // Username
-    if (username !== undefined) {
-        if (!trimmedUsername) {
+    // Assignee Name
+    if (assigneeName !== undefined) {
+        if (!trimmedAssigneeName) {
             throw new Error('Assignee name cannot be empty');
         }
-        if (trimmedUsername.length < 3) {
+        if (trimmedAssigneeName.length < 3) {
             throw new Error('Assignee name must be at least 3 characters');
         }
-        if (!userNameValidator.test(trimmedUsername)) {
+        if (!userNameValidator.test(trimmedAssigneeName)) {
             throw new Error('Assignee name cannot include numbers or special characters');
         }
-        if (trimmedUsername.startsWith('.') || trimmedUsername.endsWith('.')) {
+        if (trimmedAssigneeName.startsWith('.') || trimmedAssigneeName.endsWith('.')) {
             throw new Error('Assignee name cannot start or end with a dot');
         }
-        if (!userPattern.test(trimmedUsername)) {
+        if (!userPattern.test(trimmedAssigneeName)) {
             throw new Error('Invalid assignee name format');
         }
     }
 
     // Task name
-    if (name !== undefined) {
-        if (!trimmedName) {
+    if (taskName !== undefined) {
+        if (!trimmedTaskName) {
             throw new Error('Task name cannot be empty');
         }
-        if (trimmedName.length < 3) {
+        if (trimmedTaskName.length < 3) {
             throw new Error('Task name must be at least 3 characters');
         }
-        if (trimmedName.length > 100) {
+        if (trimmedTaskName.length > 100) {
             throw new Error('Task name cannot exceed 100 characters');
         }
     }
 
-    // Email
-    if (email !== undefined) {
+    // Assignee Email
+    if (assigneeEmail !== undefined) {
         if (!trimmedEmail) {
             throw new Error('Email cannot be empty');
         }
@@ -109,8 +109,8 @@ const validateTaskData = (data, isPatch = false) => {
         }
     }
 
-    // Date
-    if (date !== undefined) {
+    // Due Date
+    if (dueDate !== undefined) {
         if (!trimmedDate) {
             throw new Error('Due date cannot be empty');
         }
@@ -119,16 +119,16 @@ const validateTaskData = (data, isPatch = false) => {
         }
     }
 
-    // Time
-    if (time !== undefined) {
+    // Due Time
+    if (dueTime !== undefined) {
         if (!trimmedTime) {
             throw new Error('Due time cannot be empty');
         }
     }
 
-    // Priority
-    const VALID_PRIORITIES = ['low', 'medium', 'high', 'critical'];
-    if (priority !== undefined) {
+    // Priority Level
+    const VALID_PRIORITIES = ['low', 'medium', 'high'];
+    if (priorityLevel !== undefined) {
         if (!trimmedPriority) {
             throw new Error('Priority cannot be empty');
         }
@@ -138,8 +138,8 @@ const validateTaskData = (data, isPatch = false) => {
     }
 
     // Hours
-    if (hours !== undefined) {
-        const parsedHours = Number(hours);
+    if (estimatedHours !== undefined) {
+        const parsedHours = Number(estimatedHours);
         if (isNaN(parsedHours)) {
             throw new Error('Estimated hours must be a number');
         }
@@ -152,7 +152,7 @@ const validateTaskData = (data, isPatch = false) => {
     }
 
     // URL
-    if (url !== undefined) {
+    if (projectUrl !== undefined) {
         if (!trimmedUrl) {
             throw new Error('Project URL cannot be empty');
         }
@@ -165,12 +165,12 @@ const validateTaskData = (data, isPatch = false) => {
     }
 
     // Description
-    if (description !== undefined) {
+    if (taskDescription !== undefined) {
         if (!trimmedDescription) {
             throw new Error('Task description cannot be empty');
         }
-        if (trimmedDescription.length < 10) {
-            throw new Error('Task description must be at least 10 characters');
+        if (trimmedDescription.length < 3) {
+            throw new Error('Task description must be at least 3 characters');
         }
         if (trimmedDescription.length > 2000) {
             throw new Error('Task description cannot exceed 2000 characters');
@@ -185,8 +185,8 @@ const validateTaskData = (data, isPatch = false) => {
     }
 
     // Status
-    const VALID_STATUSES = ['pending', 'in-progress', 'completed', 'cancelled'];
-    if (status !== undefined) {
+    const VALID_STATUSES = ['pending', 'in-progress'];
+    if (taskStatus !== undefined) {
         if (!trimmedStatus) {
             throw new Error('Status cannot be empty');
         }
@@ -197,17 +197,17 @@ const validateTaskData = (data, isPatch = false) => {
 
     // Return trimmed/normalised values
     return {
-        ...(username !== undefined && { username: trimmedUsername }),
-        ...(name !== undefined && { name: trimmedName }),
-        ...(email !== undefined && { email: trimmedEmail }),
-        ...(date !== undefined && { date: trimmedDate }),
-        ...(time !== undefined && { time: trimmedTime }),
-        ...(priority !== undefined && { priority: trimmedPriority?.toLowerCase() }),
-        ...(hours !== undefined && { hours: Number(hours) }),
-        ...(url !== undefined && { url: trimmedUrl }),
-        ...(description !== undefined && { description: trimmedDescription }),
+        ...(assigneeName !== undefined && { assigneeName: trimmedAssigneeName }),
+        ...(taskName !== undefined && { taskName: trimmedTaskName }),
+        ...(assigneeEmail !== undefined && { assigneeEmail: trimmedEmail }),
+        ...(dueDate !== undefined && { dueDate: trimmedDate }),
+        ...(dueTime !== undefined && { dueTime: trimmedTime }),
+        ...(priorityLevel !== undefined && { priorityLevel: trimmedPriority?.toLowerCase() }),
+        ...(estimatedHours !== undefined && { estimatedHours: Number(estimatedHours) }),
+        ...(projectUrl !== undefined && { projectUrl: trimmedUrl }),
+        ...(taskDescription !== undefined && { taskDescription: trimmedDescription }),
         ...(taskTypes !== undefined && { taskTypes }),
-        ...(status !== undefined && { status: trimmedStatus?.toLowerCase() }),
+        ...(taskStatus !== undefined && { taskStatus: trimmedStatus?.toLowerCase() }),
     };
 };
 
@@ -215,7 +215,7 @@ const validateTaskData = (data, isPatch = false) => {
 const checkNameExists = async (name, excludeId = null) => {
     if (name === undefined) return;
 
-    const existing = await Task.findOne({ where: { name } });
+    const existing = await Task.findOne({ where: { taskName: name } });
 
     if (existing && existing.id !== excludeId) {
         throw new Error('Task name already exists');
@@ -227,7 +227,7 @@ const checkNameExists = async (name, excludeId = null) => {
 exports.createTask = async (taskData) => {
     const cleaned = validateTaskData(taskData);
 
-    await checkNameExists(cleaned.name);
+    await checkNameExists(cleaned.taskName);
 
     const task = await Task.create(cleaned);
     return sanitizeTask(task);
@@ -264,7 +264,7 @@ exports.updateTask = async (id, updatedData) => {
 
     const cleaned = validateTaskData(updatedData);
 
-    await checkNameExists(cleaned.name, task.id);
+    await checkNameExists(cleaned.taskName, task.id);
 
     await task.update(cleaned);
     return sanitizeTask(task);
@@ -278,8 +278,8 @@ exports.patchTask = async (id, updatedData) => {
 
     const cleaned = validateTaskData(updatedData, true);
 
-    if (cleaned.name && cleaned.name !== task.name) {
-        await checkNameExists(cleaned.name, task.id);
+    if (cleaned.taskName && cleaned.taskName !== task.taskName) {
+        await checkNameExists(cleaned.taskName, task.id);
     }
 
     await task.update(cleaned);
