@@ -271,20 +271,20 @@ exports.updateTask = async (id, updatedData) => {
 };
 
 
-// PATCH
-exports.patchTask = async (id, updatedData) => {
-    const task = await Task.findByPk(id);
-    if (!task) throw new Error('Task not found');
+// // PATCH
+// exports.patchTask = async (id, updatedData) => {
+//     const task = await Task.findByPk(id);
+//     if (!task) throw new Error('Task not found');
 
-    const cleaned = validateTaskData(updatedData, true);
+//     const cleaned = validateTaskData(updatedData, true);
 
-    if (cleaned.taskName && cleaned.taskName !== task.taskName) {
-        await checkNameExists(cleaned.taskName, task.id);
-    }
+//     if (cleaned.taskName && cleaned.taskName !== task.taskName) {
+//         await checkNameExists(cleaned.taskName, task.id);
+//     }
 
-    await task.update(cleaned);
-    return sanitizeTask(task);
-};
+//     await task.update(cleaned);
+//     return sanitizeTask(task);
+// };
 
 
 // DELETE
